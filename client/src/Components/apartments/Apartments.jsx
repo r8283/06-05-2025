@@ -329,6 +329,20 @@ const Apartments = () => {
         }
     };
 
+    // const deleteApart = async (id) => {
+    //     try {
+    //         const res = await axios({
+    //             method: 'delete',
+    //             url: 'http://localhost:8000/apartment',
+    //             data: { _id: id },
+    //         });
+    //         if (res.status === 200) {
+    //             setProducts(res.data);
+    //         }
+    //     } catch (e) {
+    //         console.error('Error deleting apartment:', e);
+    //     }
+    // };
     const deleteApart = async (id) => {
         try {
             const res = await axios({
@@ -337,13 +351,18 @@ const Apartments = () => {
                 data: { _id: id },
             });
             if (res.status === 200) {
-                setProducts(res.data);
+                // עדכון המצב (state) על ידי סינון הדירה שנמחקה
+                setProducts((prevProducts) =>
+                    prevProducts.filter((product) => product._id !== id)
+                );
+                setFilteredProducts((prevFiltered) =>
+                    prevFiltered.filter((product) => product._id !== id)
+                );
             }
         } catch (e) {
             console.error('Error deleting apartment:', e);
         }
     };
-
     const handleCardClick = (e, product) => {
         const targetTag = e.target.tagName;
         if (targetTag !== 'BUTTON' && targetTag !== 'I') {

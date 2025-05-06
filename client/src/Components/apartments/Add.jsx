@@ -1,4 +1,340 @@
 
+// import React, { useState } from "react";
+// import { useForm, Controller } from "react-hook-form";
+// import axios from "axios";
+// import { InputText } from 'primereact/inputtext';
+// import { Checkbox } from 'primereact/checkbox';
+// import { Button } from 'primereact/button';
+// import { Dialog } from 'primereact/dialog';
+// import { classNames } from 'primereact/utils';
+// import { useSelector } from 'react-redux';
+// import ApartmentService from "./ApartmentService";
+// import { Dropdown } from 'primereact/dropdown';
+// const Add = ({ setVisible, setProducts,setAdd }) => {
+//   const { user, token } = useSelector((state) => state.token);
+//   const { control, handleSubmit, formState: { errors } } = useForm();
+//   const [showMessage, setShowMessage] = useState(false);
+//   const [options, setOptions] = useState("");
+
+//   const onSubmit = async (data) => {
+//     console.log(data);
+//     const option = [];
+//     if (data.view)
+//       option.push("נוף מרשים")
+//     if (data.sukkahBalcony)
+//       option.push("מרפסת סוכה")
+//     const newApartment = {
+//       user: user._id,
+//       address: { city: data.city, neighborhood: data.neighborhood, street: data.street, building: data.building },
+//       floor: data.floor,
+//       price: data.price,
+//       description: data.description,
+//       img: data.img,
+//       size: data.size,
+//       numOfRooms: data.numOfRooms,
+//       airDirections: data.airDirections,
+//       options: option
+
+//     };
+//     try {
+//       const res = await axios.post('http://localhost:8000/apartment', newApartment, {
+//         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+//       });
+
+//       if (res.status === 201) {
+//        setAdd(res.data)
+
+//       //  const fetchedProducts = await ApartmentService.getProducts();
+//       //   setProducts(fetchedProducts.slice(0, 12));
+//         setShowMessage(true);
+//         setVisible(false);
+//       }
+//     } catch (e) {
+//       console.error(e);
+//     }
+//   };
+
+//   const handleCheckboxChange = (value) => {
+//     setOptions((prevOptions) => {
+//       return prevOptions.includes(value) ?
+//         prevOptions.replace(value + ", ", "").replace(value, "") :
+//         prevOptions ? `${prevOptions}, ${value}` : value;
+//     });
+//   };
+
+//   const getFormErrorMessage = (name) => {
+//     return errors[name] && <small className="p-error">{errors[name].message}</small>;
+//   };
+
+//   return (
+
+//     <div>
+//       <Dialog visible={showMessage} onHide={() => setShowMessage(false)} position="top">
+//         <div className="flex justify-content-center flex-column pt-6 px-3">
+//           <h5>Apartment Added Successfully!</h5>
+//         </div>
+//       </Dialog>
+
+
+//       <div className="flex justify-content-center">
+//         <div className="card">
+//           <h5 className="text-center">Add Apartment</h5>
+//           <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
+
+//             <div className="field">
+//               <span className="p-float-label">
+//                 <Controller
+//                   name="city"
+//                   control={control}
+//                   rules={{ required: 'City is required.' }}
+//                   render={({ field, fieldState }) => (
+//                     <InputText
+//                       id={field.name}
+//                       type="text"
+//                       {...field}
+//                       className={classNames({ 'p-invalid': fieldState.invalid })}
+//                     />
+//                   )}
+//                 />
+//                 <label htmlFor="city" className={classNames({ 'p-error': errors.city })}>city*</label>
+//               </span>
+//               {getFormErrorMessage('city')}
+//             </div>
+
+//             <div className="field">
+//               <span className="p-float-label">
+//                 <Controller
+//                   name="neighborhood"
+//                   control={control}
+//                   rules={{}}
+//                   render={({ field, fieldState }) => (
+//                     <InputText
+//                       id={field.name}
+//                       type="text"
+//                       {...field}
+//                       className={classNames({ 'p-invalid': fieldState.invalid })}
+//                     />
+//                   )}
+//                 />
+//                 <label htmlFor="neighborhood" className={classNames({ 'p-error': errors.neighborhood })}>neighborhood*</label>
+//               </span>
+//               {getFormErrorMessage('neighborhood')}
+//             </div>
+
+//             <div className="field">
+//               <span className="p-float-label">
+//                 <Controller
+//                   name="street"
+//                   control={control}
+//                   rules={{ required: 'Street is required.' }}
+//                   render={({ field, fieldState }) => (
+//                     <InputText
+//                       id={field.name}
+//                       type="text"
+//                       {...field}
+//                       className={classNames({ 'p-invalid': fieldState.invalid })}
+//                     />
+//                   )}
+//                 />
+//                 <label htmlFor="street" className={classNames({ 'p-error': errors.street })}>street*</label>
+//               </span>
+//               {getFormErrorMessage('street')}
+//             </div>
+
+//             <div className="field">
+//               <span className="p-float-label">
+//                 <Controller
+//                   name="building"
+//                   control={control}
+//                   rules={{ required: 'Building is required.' }}
+//                   render={({ field, fieldState }) => (
+//                     <InputText
+//                       id={field.name}
+//                       type="number"
+//                       {...field}
+//                       className={classNames({ 'p-invalid': fieldState.invalid })}
+//                     />
+//                   )}
+//                 />
+//                 <label htmlFor="building" className={classNames({ 'p-error': errors.building })}>v*</label>
+//               </span>
+//               {getFormErrorMessage('building')}
+//             </div>
+//             <div className="field">
+//               <span className="p-float-label">
+//                 <Controller
+//                   name="floor"
+//                   control={control}
+//                   rules={{ required: 'Floor is required.' }}
+//                   render={({ field, fieldState }) => (
+//                     <InputText
+//                       id={field.name}
+//                       type="text"
+//                       {...field}
+//                       className={classNames({ 'p-invalid': fieldState.invalid })}
+//                     />
+//                   )}
+//                 />
+//                 <label htmlFor="floor" className={classNames({ 'p-error': errors.floor })}>Floor*</label>
+//               </span>
+//               {getFormErrorMessage('floor')}
+//             </div>
+
+//             <div className="field">
+//               <span className="p-float-label">
+//                 <Controller
+//                   name="price"
+//                   control={control}
+//                   rules={{ required: 'Price is required.' }}
+//                   render={({ field, fieldState }) => (
+//                     <InputText
+//                       id={field.name}
+//                       type="number"
+//                       {...field}
+//                       className={classNames({ 'p-invalid': fieldState.invalid })}
+//                     />
+//                   )}
+//                 />
+//                 <label htmlFor="price" className={classNames({ 'p-error': errors.price })}>Price*</label>
+//               </span>
+//               {getFormErrorMessage('price')}
+//             </div>
+
+//             <div className="field">
+//               <span className="p-float-label">
+//                 <Controller
+//                   name="description"
+//                   control={control}
+//                   render={({ field }) => (
+//                     <InputText id={field.name} {...field} />
+//                   )}
+//                 />
+//                 <label htmlFor="description">Description</label>
+//               </span>
+//             </div>
+
+//             <div className="field">
+//               <span className="p-float-label">
+//                 <Controller
+//                   name="img"
+//                   control={control}
+//                   render={({ field }) => (
+//                     <InputText id={field.name} {...field} />
+//                   )}
+//                 />
+//                 <label htmlFor="img">Image URL</label>
+//               </span>
+//             </div>
+
+//             <div className="field">
+//               <span className="p-float-label">
+//                 <Controller
+//                   name="size"
+//                   control={control}
+//                   rules={{ required: 'Size is required.' }}
+//                   render={({ field, fieldState }) => (
+//                     <InputText
+//                       id={field.name}
+//                       type="number"
+//                       {...field}
+//                       className={classNames({ 'p-invalid': fieldState.invalid })}
+//                     />
+//                   )}
+//                 />
+//                 <label htmlFor="size" className={classNames({ 'p-error': errors.size })}>Size (sqm)*</label>
+//               </span>
+//               {getFormErrorMessage('size')}
+//             </div>
+
+//             <div className="field">
+//               <span className="p-float-label">
+//                 <Controller
+//                   name="numOfRooms"
+//                   control={control}
+//                   rules={{ required: 'Number of Rooms is required.' }}
+//                   render={({ field, fieldState }) => (
+//                     <InputText
+//                       id={field.name}
+//                       type="number"
+//                       {...field}
+//                       className={classNames({ 'p-invalid': fieldState.invalid })}
+//                     />
+//                   )}
+//                 />
+//                 <label htmlFor="numOfRooms" className={classNames({ 'p-error': errors.numOfRooms })}>Number of Rooms*</label>
+//               </span>
+//               {getFormErrorMessage('numOfRooms')}
+//             </div>
+
+
+//             <div className="field">
+//               <span className="p-float-label">
+//                 <Controller
+//                   name="airDirections"
+//                   control={control}
+//                   rules={{ required: 'airDirections is required.' }}
+//                   render={({ field, fieldState }) => (
+
+//                     <Dropdown id={field.name} className={classNames({ 'p-invalid': fieldState.invalid })} {...field} options={[
+//                       { label: 'Select air direction', value: null },
+//                       { label: '1', value: 1 },
+//                       { label: '2', value: 2 },
+//                       { label: '3', value: 3 },
+//                       { label: '4', value: 4 }
+//                     ]} />
+//                     // <InputText
+//                     //   id={field.name}
+//                     //   type="number"
+//                     //   {...field}
+//                     //   className={classNames({ 'p-invalid': fieldState.invalid })}
+//                     // />
+//                   )}
+//                 />
+//                 <label htmlFor="airDirections " className={classNames({ 'p-error': errors.airDirections })}>air direction*</label>
+//               </span>
+//               {getFormErrorMessage('airDirections')}
+//             </div>
+
+
+
+
+//             <div className="field-checkbox">
+//               <Controller name="view" control={control} render={({ field }) => (
+//                 <Checkbox
+//                   inputId={field.name}
+//                   onChange={(e) => {
+//                     field.onChange(e.checked);
+//                     handleCheckboxChange(" ,נוף");
+//                   }}
+//                   checked={field.value}
+//                 />
+//               )} />
+//               <label htmlFor="view">נוף</label>
+//             </div>
+
+//             <div className="field-checkbox">
+//               <Controller name="sukkahBalcony" control={control} render={({ field }) => (
+//                 <Checkbox
+//                   inputId={field.name}
+//                   onChange={(e) => {
+//                     field.onChange(e.checked);
+//                     handleCheckboxChange(" ,מרפסת סוכה");
+//                   }}
+//                   checked={field.value}
+//                 />
+//               )} />
+//               <label htmlFor="sukkahBalcony">מרפסת סוכה</label>
+//             </div>
+
+//             <Button type="submit" label="Add Apartment" className="mt-2" />
+//           </form>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Add;
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
@@ -10,22 +346,40 @@ import { classNames } from 'primereact/utils';
 import { useSelector } from 'react-redux';
 import ApartmentService from "./ApartmentService";
 import { Dropdown } from 'primereact/dropdown';
-const Add = ({ setVisible, setProducts,setAdd }) => {
+
+const Add = ({ setVisible, setProducts, setAdd }) => {
   const { user, token } = useSelector((state) => state.token);
   const { control, handleSubmit, formState: { errors } } = useForm();
   const [showMessage, setShowMessage] = useState(false);
-  const [options, setOptions] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+  const availableOptions = [
+    "נוף מרשים",
+    "מרפסת סוכה",
+    "מרפסת מקורה",
+    "מקלחון",
+    "אמבטיה",
+    "סורגים",
+    "חניה",
+    "מכונת כביסה",
+    "מייבש",
+    "נגישות לנכים",
+    "מיזוג",
+    "דוד שמש",
+    "מעלית",
+    "מחסן",
+    "ריהוט"
+  ];
 
   const onSubmit = async (data) => {
-    console.log(data);
-    const option = [];
-    if (data.view)
-      option.push("נוף מרשים")
-    if (data.sukkahBalcony)
-      option.push("מרפסת סוכה")
     const newApartment = {
       user: user._id,
-      address: { city: data.city, neighborhood: data.neighborhood, street: data.street, building: data.building },
+      address: {
+        city: data.city,
+        neighborhood: data.neighborhood,
+        street: data.street,
+        building: data.building
+      },
       floor: data.floor,
       price: data.price,
       description: data.description,
@@ -33,19 +387,19 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
       size: data.size,
       numOfRooms: data.numOfRooms,
       airDirections: data.airDirections,
-      options: option
-
+      options: selectedOptions
     };
+
     try {
       const res = await axios.post('http://localhost:8000/apartment', newApartment, {
-        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       });
 
       if (res.status === 201) {
-       setAdd(res.data)
-
-      //  const fetchedProducts = await ApartmentService.getProducts();
-      //   setProducts(fetchedProducts.slice(0, 12));
+        setAdd(res.data);
         setShowMessage(true);
         setVisible(false);
       }
@@ -54,20 +408,18 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
     }
   };
 
-  const handleCheckboxChange = (value) => {
-    setOptions((prevOptions) => {
-      return prevOptions.includes(value) ?
-        prevOptions.replace(value + ", ", "").replace(value, "") :
-        prevOptions ? `${prevOptions}, ${value}` : value;
-    });
+  const handleOptionToggle = (value) => {
+    setSelectedOptions((prev) =>
+      prev.includes(value)
+        ? prev.filter((item) => item !== value)
+        : [...prev, value]
+    );
   };
 
-  const getFormErrorMessage = (name) => {
-    return errors[name] && <small className="p-error">{errors[name].message}</small>;
-  };
+  const getFormErrorMessage = (name) =>
+    errors[name] && <small className="p-error">{errors[name].message}</small>;
 
   return (
-
     <div>
       <Dialog visible={showMessage} onHide={() => setShowMessage(false)} position="top">
         <div className="flex justify-content-center flex-column pt-6 px-3">
@@ -75,12 +427,13 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
         </div>
       </Dialog>
 
-
       <div className="flex justify-content-center">
         <div className="card">
           <h5 className="text-center">Add Apartment</h5>
           <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
+            {/* All your text/number inputs (unchanged) */}
 
+            {/* City */}
             <div className="field">
               <span className="p-float-label">
                 <Controller
@@ -88,39 +441,29 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
                   control={control}
                   rules={{ required: 'City is required.' }}
                   render={({ field, fieldState }) => (
-                    <InputText
-                      id={field.name}
-                      type="text"
-                      {...field}
-                      className={classNames({ 'p-invalid': fieldState.invalid })}
-                    />
+                    <InputText id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
                   )}
                 />
-                <label htmlFor="city" className={classNames({ 'p-error': errors.city })}>city*</label>
+                <label htmlFor="city" className={classNames({ 'p-error': errors.city })}>City*</label>
               </span>
               {getFormErrorMessage('city')}
             </div>
 
+            {/* Neighborhood */}
             <div className="field">
               <span className="p-float-label">
                 <Controller
                   name="neighborhood"
                   control={control}
-                  rules={{}}
-                  render={({ field, fieldState }) => (
-                    <InputText
-                      id={field.name}
-                      type="text"
-                      {...field}
-                      className={classNames({ 'p-invalid': fieldState.invalid })}
-                    />
+                  render={({ field }) => (
+                    <InputText id={field.name} {...field} />
                   )}
                 />
-                <label htmlFor="neighborhood" className={classNames({ 'p-error': errors.neighborhood })}>neighborhood*</label>
+                <label htmlFor="neighborhood">Neighborhood</label>
               </span>
-              {getFormErrorMessage('neighborhood')}
             </div>
 
+            {/* Street */}
             <div className="field">
               <span className="p-float-label">
                 <Controller
@@ -128,19 +471,15 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
                   control={control}
                   rules={{ required: 'Street is required.' }}
                   render={({ field, fieldState }) => (
-                    <InputText
-                      id={field.name}
-                      type="text"
-                      {...field}
-                      className={classNames({ 'p-invalid': fieldState.invalid })}
-                    />
+                    <InputText id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
                   )}
                 />
-                <label htmlFor="street" className={classNames({ 'p-error': errors.street })}>street*</label>
+                <label htmlFor="street" className={classNames({ 'p-error': errors.street })}>Street*</label>
               </span>
               {getFormErrorMessage('street')}
             </div>
 
+            {/* Building */}
             <div className="field">
               <span className="p-float-label">
                 <Controller
@@ -148,18 +487,15 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
                   control={control}
                   rules={{ required: 'Building is required.' }}
                   render={({ field, fieldState }) => (
-                    <InputText
-                      id={field.name}
-                      type="number"
-                      {...field}
-                      className={classNames({ 'p-invalid': fieldState.invalid })}
-                    />
+                    <InputText id={field.name} type="number" {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
                   )}
                 />
-                <label htmlFor="building" className={classNames({ 'p-error': errors.building })}>v*</label>
+                <label htmlFor="building" className={classNames({ 'p-error': errors.building })}>Building*</label>
               </span>
               {getFormErrorMessage('building')}
             </div>
+
+            {/* Floor */}
             <div className="field">
               <span className="p-float-label">
                 <Controller
@@ -167,12 +503,7 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
                   control={control}
                   rules={{ required: 'Floor is required.' }}
                   render={({ field, fieldState }) => (
-                    <InputText
-                      id={field.name}
-                      type="text"
-                      {...field}
-                      className={classNames({ 'p-invalid': fieldState.invalid })}
-                    />
+                    <InputText id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
                   )}
                 />
                 <label htmlFor="floor" className={classNames({ 'p-error': errors.floor })}>Floor*</label>
@@ -180,6 +511,7 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
               {getFormErrorMessage('floor')}
             </div>
 
+            {/* Price */}
             <div className="field">
               <span className="p-float-label">
                 <Controller
@@ -187,12 +519,7 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
                   control={control}
                   rules={{ required: 'Price is required.' }}
                   render={({ field, fieldState }) => (
-                    <InputText
-                      id={field.name}
-                      type="number"
-                      {...field}
-                      className={classNames({ 'p-invalid': fieldState.invalid })}
-                    />
+                    <InputText id={field.name} type="number" {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
                   )}
                 />
                 <label htmlFor="price" className={classNames({ 'p-error': errors.price })}>Price*</label>
@@ -200,32 +527,31 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
               {getFormErrorMessage('price')}
             </div>
 
+            {/* Description */}
             <div className="field">
               <span className="p-float-label">
                 <Controller
                   name="description"
                   control={control}
-                  render={({ field }) => (
-                    <InputText id={field.name} {...field} />
-                  )}
+                  render={({ field }) => <InputText id={field.name} {...field} />}
                 />
                 <label htmlFor="description">Description</label>
               </span>
             </div>
 
+            {/* Image URL */}
             <div className="field">
               <span className="p-float-label">
                 <Controller
                   name="img"
                   control={control}
-                  render={({ field }) => (
-                    <InputText id={field.name} {...field} />
-                  )}
+                  render={({ field }) => <InputText id={field.name} {...field} />}
                 />
                 <label htmlFor="img">Image URL</label>
               </span>
             </div>
 
+            {/* Size */}
             <div className="field">
               <span className="p-float-label">
                 <Controller
@@ -233,12 +559,7 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
                   control={control}
                   rules={{ required: 'Size is required.' }}
                   render={({ field, fieldState }) => (
-                    <InputText
-                      id={field.name}
-                      type="number"
-                      {...field}
-                      className={classNames({ 'p-invalid': fieldState.invalid })}
-                    />
+                    <InputText id={field.name} type="number" {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
                   )}
                 />
                 <label htmlFor="size" className={classNames({ 'p-error': errors.size })}>Size (sqm)*</label>
@@ -246,6 +567,7 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
               {getFormErrorMessage('size')}
             </div>
 
+            {/* Number of Rooms */}
             <div className="field">
               <span className="p-float-label">
                 <Controller
@@ -253,12 +575,7 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
                   control={control}
                   rules={{ required: 'Number of Rooms is required.' }}
                   render={({ field, fieldState }) => (
-                    <InputText
-                      id={field.name}
-                      type="number"
-                      {...field}
-                      className={classNames({ 'p-invalid': fieldState.invalid })}
-                    />
+                    <InputText id={field.name} type="number" {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
                   )}
                 />
                 <label htmlFor="numOfRooms" className={classNames({ 'p-error': errors.numOfRooms })}>Number of Rooms*</label>
@@ -266,7 +583,7 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
               {getFormErrorMessage('numOfRooms')}
             </div>
 
-
+            {/* Air Directions */}
             <div className="field">
               <span className="p-float-label">
                 <Controller
@@ -274,57 +591,32 @@ const Add = ({ setVisible, setProducts,setAdd }) => {
                   control={control}
                   rules={{ required: 'airDirections is required.' }}
                   render={({ field, fieldState }) => (
-
-                    <Dropdown id={field.name} className={classNames({ 'p-invalid': fieldState.invalid })} {...field} options={[
+                    <Dropdown id={field.name} {...field} options={[
                       { label: 'Select air direction', value: null },
                       { label: '1', value: 1 },
                       { label: '2', value: 2 },
                       { label: '3', value: 3 },
                       { label: '4', value: 4 }
-                    ]} />
-                    // <InputText
-                    //   id={field.name}
-                    //   type="number"
-                    //   {...field}
-                    //   className={classNames({ 'p-invalid': fieldState.invalid })}
-                    // />
+                    ]} className={classNames({ 'p-invalid': fieldState.invalid })} />
                   )}
                 />
-                <label htmlFor="airDirections " className={classNames({ 'p-error': errors.airDirections })}>air direction*</label>
+                <label htmlFor="airDirections" className={classNames({ 'p-error': errors.airDirections })}>Air Direction*</label>
               </span>
               {getFormErrorMessage('airDirections')}
             </div>
 
-
-
-
-            <div className="field-checkbox">
-              <Controller name="view" control={control} render={({ field }) => (
+            {/* Additional Features - Options */}
+            <h6>Additional Features</h6>
+            {availableOptions.map((option, index) => (
+              <div className="field-checkbox" key={index}>
                 <Checkbox
-                  inputId={field.name}
-                  onChange={(e) => {
-                    field.onChange(e.checked);
-                    handleCheckboxChange(" ,נוף");
-                  }}
-                  checked={field.value}
+                  inputId={option}
+                  checked={selectedOptions.includes(option)}
+                  onChange={() => handleOptionToggle(option)}
                 />
-              )} />
-              <label htmlFor="view">נוף</label>
-            </div>
-
-            <div className="field-checkbox">
-              <Controller name="sukkahBalcony" control={control} render={({ field }) => (
-                <Checkbox
-                  inputId={field.name}
-                  onChange={(e) => {
-                    field.onChange(e.checked);
-                    handleCheckboxChange(" ,מרפסת סוכה");
-                  }}
-                  checked={field.value}
-                />
-              )} />
-              <label htmlFor="sukkahBalcony">מרפסת סוכה</label>
-            </div>
+                <label htmlFor={option}>{option}</label>
+              </div>
+            ))}
 
             <Button type="submit" label="Add Apartment" className="mt-2" />
           </form>
